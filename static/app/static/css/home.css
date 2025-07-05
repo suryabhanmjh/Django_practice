@@ -1,0 +1,12 @@
+.demo {
+    color: blue;
+    text-align: center;
+}
+
+.img-fluid {
+    width: 200px;
+    height: 400px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}

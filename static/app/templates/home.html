@@ -1,0 +1,15 @@
+{% load static %}
+<link rel="stylesheet"  href="{% static 'css/home.css' %}">
+<h1 class='demo'>Welcome to My Django App</h1>
+<p class='demo'>This is a simple Django application to demonstrate static file handling.</p>
+<img src="{% static 'images/img1.webp' %}" alt="stay awesome" class="img-fluid"> <br/>
+<p>Video</p>
+<video width="320" height="240" controls>
+  <source src="{% static 'video/vid1.mp4' %}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<p>Input</p>
+<input type="text" placeholder="Type something..." class="form-control">
+<p>Button</p>
+<button class="btn btn-primary">Click Me!</button>
