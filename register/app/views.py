@@ -11,7 +11,19 @@ def registerdata(req):
        e=req.POST.get('email')
        i=req.FILES.get('image')
        c=req.POST.get('contact')
+       p=req.POST.get('password')
+       cp=req.POST.get('cpassword')
        d=req.FILES.get('document')
-       print(n, e, i, c, d, sep=',') 
-       Student.objects.create(fname=n, email=e, contact=c, image=i, document=d)
-       return HttpResponse("registration done")
+
+       data =Student.objects.filter(email=e)
+       if data:
+            msg = "Email already exists"
+            return render(req, 'landing.html', {'msg': msg, 'register':'register'})
+       else:
+            if p==cp:
+                Student.objects.create(fname=n, email=e, contact=c, image=i, document=d, password=p)
+                return HttpResponse("Registration done")
+            msg='Registration done'
+       print(n, e, i, c, d, ) 
+    #    Student.objects.create(fname=n, email=e, contact=c, image=i, document=d, password=p, cpassword=cp)
+    #    return HttpResponse("registration done")
