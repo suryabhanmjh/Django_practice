@@ -22,8 +22,12 @@ def registerdata(req):
        else:
             if p==cp:
                 Student.objects.create(fname=n, email=e, contact=c, image=i, document=d, password=p)
-                return HttpResponse("Registration done")
-            msg='Registration done'
+                msg='Registration done'
+                return render(req, 'landing.html', {'login':'login'})
+            else:
+                msg = "Password and confirm password do not match"
+                return render(req, 'landing.html', {'pmsg': msg, 'register':'register'})
+       
        print(n, e, i, c, d, ) 
     #    Student.objects.create(fname=n, email=e, contact=c, image=i, document=d, password=p, cpassword=cp)
     #    return HttpResponse("registration done")

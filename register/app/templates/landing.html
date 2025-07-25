@@ -1,21 +1,32 @@
 <a href="{% url 'register' %}">Register</a>
 <a href="">Login</a>  
 <br> 
-{{ msg }}
+
 {% if register %}
 
 register page
 <form action="{% url 'registerdata' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    fname: <input type="text" name="fname" class="form-control" required><br><br>
-    email: <input type="email" name="email" class="form-control" required><br><br>
-    contact: <input type="text" name="contact"  class="form-control" required><br><br>
-    Password: <input type="password" name="password" class="form-control" required><br><br>
-    Confirm Password: <input type="password" name="cpassword" class="form-control" required><br><br>
-    image: <input type="file" name="image" accept=".jpg, .jpeg, .png" class="form-control" required><br><br>
+    fname: <input type="text" name="fname" class="form-control" required><br>
+    <h4 style='color:red'>{{ msg }}</h4> <br>
+    email: <input type="email" name="email" class="form-control" required><br>
+    contact: <input type="text" name="contact"  class="form-control" required><br>
+    <h4 style='color:red'>{{ pmsg }}</h4> <br>
+    Password: <input type="password" name="password" class="form-control" required><br>
+    Confirm Password: <input type="password" name="cpassword" class="form-control" required><br>
+    image: <input type="file" name="image" accept=".jpg, .jpeg, .png" class="form-control" required><br>
 
-    document: <input type="file" name="document" accept=".pdf, .doc, .docx" class="form-control" required><br><br>
+    document: <input type="file" name="document" accept=".pdf, .doc, .docx" class="form-control" required><br>
     <input type="submit" value="Register" class="btn btn-primary mt-3">
 </form>  
 
 {% endif %}
+{% if login %}
+<form>
+    {% csrf_token %}
+    
+    email: <input type="email" name="email" class="form-control" required><br><br>
+    Password: <input type="password" name="password" class="form-control" required><br><br>
+    <input type="submit" value="Login">
+</form>
+{% endif %}    
