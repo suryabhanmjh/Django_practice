@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome {{ user.fname }}</h2>
+<img src="{{ user.image.url }}" alt="Profile Picture" width="100" style="border-radius: 50%;"><br>
+<p>Contact: {{ user.contact }}</p>
+<a href="{% url 'home' %}">Logout</a>
+{% endblock %}

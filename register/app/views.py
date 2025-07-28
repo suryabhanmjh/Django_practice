@@ -4,7 +4,9 @@ from django.http import HttpResponse
 def landing(req):
     return render(req, 'landing.html')
 def register(req):
-    return render(req, 'landing.html', {'register':'register'})
+    return render(req, 'register.html')
+def login(req):
+    return render(req, 'login.html')
 def registerdata(req):
     if req.method=='POST':
        n=req.POST.get('fname')

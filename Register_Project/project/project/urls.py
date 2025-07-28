@@ -1,5 +1,5 @@
 """
-URL configuration for register project.
+URL configuration for project project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -17,13 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.landing, name='landing'),
-    path("register/", views.register, name="register"),
-    # path('registerdata/', views.registerdata, name='registerdata'),
+    path('', views.home, name='home'),
+    path('register/', views.register, name='register'),
+    path('registerdata/', views.registerdata, name='registerdata'),
     path('login/', views.login, name='login'),
-
+    path('logindata/', views.logindata, name='logindata'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
