@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Create Your Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .register-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .register-form-section {
+            padding: 3rem;
+        }
+        .register-image-section {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            min-height: 100%;
+        }
+        .form-title {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .form-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            height: auto;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-register {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1.5rem;
+        }
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        .file-upload-wrapper:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        .file-upload-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        .file-upload-label {
+            cursor: pointer;
+            color: #667eea;
+            font-weight: 600;
+        }
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .register-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+            font-weight: 600;
+            color: #666;
+        }
+        .step.active {
+            background: #667eea;
+            color: white;
+        }
+        .password-strength {
+            height: 5px;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            background: #e0e0e0;
+        }
+        .strength-weak { background: #dc3545; }
+        .strength-medium { background: #ffc107; }
+        .strength-strong { background: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="register-container">
+                    <div class="row g-0">
+                        <!-- Registration Form Section -->
+                        <div class="col-lg-8">
+                            <div class="register-form-section">
+                                <div class="text-center mb-4">
+                                    <i class="fas fa-user-plus text-primary" style="font-size: 3rem;"></i>
+                                    <h2 class="form-title">Create Account</h2>
+                                    <p class="form-subtitle">Join us today! It's quick and easy.</p>
+                                </div>
+
+                                <!-- Progress Indicator -->
+                                <div class="step-indicator">
+                                    <div class="step active">1</div>
+                                    <div class="step active">2</div>
+                                    <div class="step active">3</div>
+                                </div>
+
+                                <!-- Error Messages -->
+                                {% if msg %}
+                                    <div class="alert alert-danger">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>{{ msg }}
+                                    </div>
+                                {% endif %}
+
+                                {% if pmsg %}
+                                    <div class="alert alert-danger">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>{{ pmsg }}
+                                    </div>
+                                {% endif %}
+
+                                <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <!-- Personal Information -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" name="fname" class="form-control" 
+                                                       id="fname" placeholder="Enter your full name" required>
+                                                <label for="fname">
+                                                    <i class="fas fa-user me-2"></i>Full Name
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="email" name="email" class="form-control" 
+                                                       id="email" placeholder="Enter your email" required>
+                                                <label for="email">
+                                                    <i class="fas fa-envelope me-2"></i>Email Address
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-floating">
+                                        <input type="tel" name="contact" class="form-control" 
+                                               id="contact" placeholder="Enter your contact number" required>
+                                        <label for="contact">
+                                            <i class="fas fa-phone me-2"></i>Contact Number
+                                        </label>
+                                    </div>
+
+                                    <!-- Password Section -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="password" name="password" class="form-control" 
+                                                       id="password" placeholder="Create a password" required>
+                                                <label for="password">
+                                                    <i class="fas fa-lock me-2"></i>Password
+                                                </label>
+                                            </div>
+                                            <div class="password-strength" id="passwordStrength"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="password" name="cpassword" class="form-control" 
+                                                       id="cpassword" placeholder="Confirm your password" required>
+                                                <label for="cpassword">
+                                                    <i class="fas fa-lock me-2"></i>Confirm Password
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- File Upload Section -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="file-upload-wrapper">
+                                                <i class="fas fa-image fa-2x text-primary mb-2"></i>
+                                                <div class="file-upload-label">
+                                                    <strong>Upload Profile Image</strong>
+                                                    <p class="mb-0 small text-muted">JPG, JPEG, PNG (Max 5MB)</p>
+                                                </div>
+                                                <input type="file" name="image" id="image" 
+                                                       accept=".jpg, .jpeg, .png" required>
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" 
+                                                            onclick="document.getElementById('image').click()">
+                                                        <i class="fas fa-upload me-2"></i>Choose Image
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="file-upload-wrapper">
+                                                <i class="fas fa-file-alt fa-2x text-success mb-2"></i>
+                                                <div class="file-upload-label">
+                                                    <strong>Upload Document</strong>
+                                                    <p class="mb-0 small text-muted">PDF, DOC, DOCX (Max 10MB)</p>
+                                                </div>
+                                                <input type="file" name="document" id="document" 
+                                                       accept=".pdf, .doc, .docx" required>
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-outline-success btn-sm" 
+                                                            onclick="document.getElementById('document').click()">
+                                                        <i class="fas fa-upload me-2"></i>Choose Document
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Terms and Conditions -->
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            I agree to the <a href="#" style="color: #667eea;">Terms & Conditions</a> 
+                                            and <a href="#" style="color: #667eea;">Privacy Policy</a>
+                                        </label>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-register">
+                                        <i class="fas fa-user-plus me-2"></i>Create Account
+                                    </button>
+                                </form>
+
+                                <div class="login-link">
+                                    <p>Already have an account? 
+                                        <a href="{% url 'login' %}">Sign in here</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image/Info Section -->
+                        <div class="col-lg-4">
+                            <div class="register-image-section">
+                                <div>
+                                    <i class="fas fa-rocket register-icon"></i>
+                                    <h3>Get Started Today!</h3>
+                                    <p class="mb-4">Join thousands of satisfied users and unlock amazing features</p>
+                                    
+                                    <div class="mb-4">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <span>Secure Data Protection</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <span>24/7 Customer Support</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <span>Free Account Setup</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <span>Premium Features</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <small class="opacity-75">
+                                            Trusted by 10,000+ users worldwide
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrength');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            strengthBar.className = 'password-strength';
+            if (strength >= 3) strengthBar.classList.add('strength-strong');
+            else if (strength >= 2) strengthBar.classList.add('strength-medium');
+            else if (strength >= 1) strengthBar.classList.add('strength-weak');
+        });
+
+        // File upload feedback
+        document.getElementById('image').addEventListener('change', function() {
+            const fileName = this.files[0]?.name;
+            if (fileName) {
+                this.parentElement.querySelector('.file-upload-label strong').textContent = fileName;
+            }
+        });
+
+        document.getElementById('document').addEventListener('change', function() {
+            const fileName = this.files[0]?.name;
+            if (fileName) {
+                this.parentElement.querySelector('.file-upload-label strong').textContent = fileName;
+            }
+        });
+    </script>
+</body>
+</html>
