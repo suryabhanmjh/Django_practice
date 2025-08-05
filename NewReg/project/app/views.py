@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
-from .models import Student
+from .models import Student, Query
 from django.urls import reverse
-from urllib.parse import urlencode
+from urllib.parse import urlencode 
 
 # Create your views here.
 def home(req):
@@ -43,9 +43,12 @@ def login(req):
             data = Student.objects.get(email=e)
             upass = data.password
             if upass == p:
+                # url = reverse('dashboard')
+                # data = urlencode({'id': data.id})
+                # return redirect(f'{url}?{data}')
+                req.session['id'] = data.id
                 url = reverse('dashboard')
-                data = urlencode({'id': data.id})
-                return redirect(f'{url}?{data}')
+                return redirect(f'{url}')
             else:
                 msg = "Email and password not match"
                 return render(req, 'login.html',{'pmsg':msg,'email':e})
@@ -54,7 +57,8 @@ def login(req):
     return render(req,'login.html')
 
 def dashboard(req):
-    pk = req.GET.get('id')
+    # pk = req.GET.get('id')
+    pk = req.session['id']
     if not pk:
         return redirect('login')
     
@@ -71,3 +75,45 @@ def dashboard(req):
         return render(req, 'dashboard.html', {'data': data})
     except Student.DoesNotExist:
         return redirect('login')
+    
+def logout(req):
+    req.session.flush()
+    return redirect('home')   
+
+def query(req):
+    data = req.session.get('id', None)
+    if data:
+        pk = req.session['id']
+        user = Student.objects.get(id=pk)
+        data = {'fname': user.fname, 'email': user.email, 'contact': user.contact, 
+                'image': user.image, 'document': user.document, 'password': user.password}
+        return render(req, 'dashboard.html', {'data': data, 'query':'query'})
+    else:
+        return redirect('login')
+    
+def querydata(req):
+    if req.method == 'POST':
+        n = req.POST.get('fname')
+        e = req.POST.get('email')
+        q = req.POST.get('query')  
+        
+        Query.objects.create(name=n, email=e, message=q)
+        
+        # Get user data for dashboard
+        pk = req.session['id']
+        user = Student.objects.get(id=pk)
+        data = {
+            'fname': user.fname,
+            'email': user.email,
+            'contact': user.contact,
+            'image': user.image,
+            'document': user.document,
+            'password': user.password
+        }
+        
+        # Add success message
+        success_msg = "Your query has been submitted successfully!"
+        return render(req, 'dashboard.html', {'data':data, 'success_msg': success_msg})
+    
+    # If not POST request, redirect to dashboard
+    return redirect('dashboard')
